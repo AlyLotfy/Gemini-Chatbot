@@ -1,0 +1,41 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      # --- TRIPLE-CHECK THIS PASSWORD ---
+      - DATABASE_URL=postgresql://myuser:mypassword@db:5432/mydb
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      # --- FIX: Nginx runs on 80, not 5173 ---
+      - "5173:80"
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=myuser
+      # --- TRIPLE-CHECK THIS PASSWORD (must match backend) ---
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydb
+    volumes:
+      # --- FIX: Renaming this forces a new, fresh database ---
+      - postgres_data_v2:/var/lib/postgresql/data
+    ports:
+      # Use 5433 to avoid conflicts with any local Postgres
+      - "5433:5432"
+
+volumes:
+  # --- FIX: Renaming this forces a new, fresh database ---
+  postgres_data_v2:
