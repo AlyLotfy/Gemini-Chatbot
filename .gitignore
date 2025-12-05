@@ -1,0 +1,12 @@
+# Ignore Python venv and cache
+venv/
+env/
+.venv/
+__pycache__/
+*.pyc
+
+# Ignore Node modules (if using JS)
+node_modules/
+
+# Ignore System files
+.DS_Store
