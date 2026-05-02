@@ -1,6 +1,6 @@
 <div align="center">
 
-# 💬 Student Chatbot — Powered by Gemini 2.5 Flash
+# Student Chatbot — Powered by Gemini 2.5 Flash
 
 **A full-stack, dockerized AI chatbot for academic Q&A, built with FastAPI and Vite.**
 
@@ -14,7 +14,7 @@
 
 ---
 
-## 📌 Overview
+## Overview
 
 A full-stack AI-powered chatbot designed for **students**, built as part of an "AI in Web" assignment. It combines a **FastAPI** Python backend with a **Vite** vanilla-JS frontend, both **fully containerized** with Docker Compose. The conversational layer is **Google Gemini 2.5 Flash**, surfaced through a simple REST API.
 
@@ -22,7 +22,7 @@ The point of the project: show that you can ship an LLM-backed product with prop
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ┌────────────────────┐         ┌──────────────────────┐
@@ -42,7 +42,7 @@ Both services are independent containers wired together by `docker-compose.yml`.
 
 ---
 
-## ✨ Features
+## Features
 
 - **FastAPI backend** with health-check and Q&A endpoints
 - **Vite frontend** — fast dev server, simple responsive chat UI
@@ -52,7 +52,7 @@ Both services are independent containers wired together by `docker-compose.yml`.
 
 ---
 
-## 📡 API Reference
+## API Reference
 
 | Method | Endpoint | Description |
 | --- | --- | --- |
@@ -73,7 +73,7 @@ Both services are independent containers wired together by `docker-compose.yml`.
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 git clone https://github.com/AlyLotfy/Gemini-Chatbot.git
@@ -96,7 +96,7 @@ docker-compose up --build
 
 ---
 
-## 📁 Project Layout
+## Project Layout
 
 ```
 gemini-chatbot-docker/
@@ -116,7 +116,7 @@ gemini-chatbot-docker/
 
 ---
 
-## 🔧 Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 | --- | --- |
@@ -127,7 +127,7 @@ gemini-chatbot-docker/
 
 ---
 
-## 🔭 Future Work
+## Future Work
 
 - Persist chat history in a real database (currently optional `chat.db`)
 - Add streaming responses for snappier UX
