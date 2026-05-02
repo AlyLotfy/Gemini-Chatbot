@@ -8,7 +8,7 @@ WORKDIR /app
 COPY requirements.txt .
 
 # 4. Install the Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --default-timeout=200 --retries 20 --no-cache-dir -r requirements.txt
 
 # 5. Copy your backend code (main.py, etc.) into the container
 COPY . .

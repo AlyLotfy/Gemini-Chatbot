@@ -1,87 +1,54 @@
-import sys
+from __future__ import annotations
+
 import os
+import sys
 from logging.config import fileConfig
-
-# --- FIX: Import create_engine ---
-from sqlalchemy import create_engine
-# ---------------------------------
-
-from sqlalchemy import pool
+from pathlib import Path
 from alembic import context
+from sqlalchemy import create_engine, pool
 
-# --- FIX: Add parent directory to path ---
-# This allows us to import 'main'
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# ---------------------------------------
-
-# --- FIX: Import Base AND DB_URL from main.py ---
-from main import Base, DB_URL
-# ----------------------------------------------
-
-
-# this is the Alembic Config object, which provides
-# access to the values within the .ini file in use.
+# Alembic Config
 config = context.config
 
-# Interpret the config file for Python logging.
-# This line sets up loggers basically.
+# Logging
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# add your model's MetaData object here
-# for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
+# ----------------------------------------------------------------------------------------
+# FIX FOR DOCKER: Add backend directory to PYTHONPATH manually
+# ----------------------------------------------------------------------------------------
+BASE_DIR = Path(__file__).resolve().parents[1]  # /app
+sys.path.insert(0, str(BASE_DIR))
 
-# --- FIX: Set target_metadata to your Base ---
-target_metadata = Base.metadata
-# -------------------------------------------
+# Now imports work inside Docker
+import database
+import models
 
-# other values from the config, defined by the needs of env.py,
-# can be acquired:
-# my_important_option = config.get_main_option("my_important_option")
-# ... etc.
+# Target metadata
+target_metadata = database.Base.metadata
 
+# Load DB URL
+def get_url():
+    return os.getenv("DATABASE_URL", config.get_main_option("sqlalchemy.url"))
 
-def run_migrations_offline() -> None:
-    """Run migrations in 'offline' mode.
-    (This section is unchanged and correct)
-    """
-    url = config.get_main_option("sqlalchemy.url")
+def run_migrations_offline():
+    url = get_url()
     context.configure(
         url=url,
         target_metadata=target_metadata,
         literal_binds=True,
-        dialect_opts={"paramstyle": "named"},
     )
-
     with context.begin_transaction():
         context.run_migrations()
 
-
-def run_migrations_online() -> None:
-    """Run migrations in 'online' mode.
-
-    In this scenario we need to create an Engine
-    and associate a connection with the context.
-
-    """
-    
-    # --- THIS IS THE MAIN FIX ---
-    # We ignore the .ini file and create the engine directly
-    # using the DB_URL we imported from main.py.
-    # This bypasses the environment variable problem.
-    connectable = create_engine(DB_URL)
-    # ----------------------------------------------------
+def run_migrations_online():
+    url = get_url()
+    connectable = create_engine(url, poolclass=pool.NullPool)
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
-
+        context.configure(connection=connection, target_metadata=target_metadata)
         with context.begin_transaction():
             context.run_migrations()
-
 
 if context.is_offline_mode():
     run_migrations_offline()

@@ -10,3 +10,14 @@ node_modules/
 
 # Ignore System files
 .DS_Store
+
+# Secrets and local config
+.env
+*.env
+
+# Database files
+*.db
+*.sqlite
+
+# Alembic generated (keep only versions/*.py)
+backend/data/
