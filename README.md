@@ -25,17 +25,17 @@ The point of the project: show that you can ship an LLM-backed product with prop
 ## Architecture
 
 ```
-┌────────────────────┐         ┌──────────────────────┐
-│   Frontend (Vite)  │  HTTP   │   Backend (FastAPI)  │
-│   localhost:5173   │◄───────►│   localhost:8000     │
-│   HTML / CSS / JS  │         │   Python 3           │
-└────────────────────┘         └──────────┬───────────┘
-                                          │
-                                          ▼
-                               ┌──────────────────────┐
-                               │  Google Gemini 2.5   │
-                               │       Flash API      │
-                               └──────────────────────┘
+┌────────────────────┐ ┌──────────────────────┐
+│ Frontend (Vite) │ HTTP │ Backend (FastAPI) │
+│ localhost:5173 │◄───────►│ localhost:8000 │
+│ HTML / CSS / JS │ │ Python 3 │
+└────────────────────┘ └──────────┬───────────┘
+ │
+ ▼
+ ┌──────────────────────┐
+ │ Google Gemini 2.5 │
+ │ Flash API │
+ └──────────────────────┘
 ```
 
 Both services are independent containers wired together by `docker-compose.yml`.
@@ -67,7 +67,7 @@ Both services are independent containers wired together by `docker-compose.yml`.
 **Response**
 ```json
 {
-  "answer": "Machine Learning is a subset of AI that enables systems to learn patterns from data and make predictions without explicit programming."
+ "answer": "Machine Learning is a subset of AI that enables systems to learn patterns from data and make predictions without explicit programming."
 }
 ```
 
@@ -92,7 +92,7 @@ docker-compose up --build
 
 - Frontend → http://localhost:5173
 - Backend → http://localhost:8000
-- Health  → http://localhost:8000/health
+- Health → http://localhost:8000/health
 
 ---
 
@@ -101,16 +101,16 @@ docker-compose up --build
 ```
 gemini-chatbot-docker/
 ├── backend/
-│   ├── main.py              # FastAPI app
-│   ├── requirements.txt     # Python deps
-│   ├── Dockerfile
-│   └── .env                 # GEMINI_API_KEY (gitignored)
+│ ├── main.py # FastAPI app
+│ ├── requirements.txt # Python deps
+│ ├── Dockerfile
+│ └── .env # GEMINI_API_KEY (gitignored)
 ├── frontend/
-│   ├── index.html
-│   ├── script.js            # API calls
-│   ├── vite.config.js
-│   ├── Dockerfile
-│   └── package.json
+│ ├── index.html
+│ ├── script.js # API calls
+│ ├── vite.config.js
+│ ├── Dockerfile
+│ └── package.json
 └── docker-compose.yml
 ```
 
@@ -136,6 +136,6 @@ gemini-chatbot-docker/
 
 ---
 
-## 📄 License
+## License
 
-Academic project, AAST Computer Engineering.
+Academic project, AAST College of Artificial Intelligence.
